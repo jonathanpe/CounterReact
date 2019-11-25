@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
+    <style>
+   
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        let timer = null;
+
+        const Search = () => {
+
+            const [ searchResult, setSearchResult ] = React.useState(0);
+            React.useEffect(() => {
+
+                return () => {
+
+                    console.log('unmount ....')
+                }
+
+            }, [name]); // rien n'est watch au niveau des states
+
+
+            const getResult = (e)=>{
+                let results = e.currentTarget.value
+                if(results.length>2)setSearchResult(results)
+
+                console.log(searchResult)
+            }
+            return (
+                <React.Fragment>
+                    <label>Name : 
+                        <input type="text" onChange={getResult}></input>
+                    </label>
+                    <Users search={searchResult}/>
+                </React.Fragment>
+            );
+        }
+
+        const Users = ({search}) => {
+
+            console.log(search)
+            let usersList = {}
+            let usersFound = []
+            const [ usersResult, setUsersResult ] = React.useState([]);
+            const [ name, setName ] = React.useState(null);
+
+        
+
+            React.useEffect(() => {
+                fetch('https://jsonplaceholder.typicode.com/users')
+                .then(
+                    function(response) {
+                        console.log(response)
+                  
+                    // Examine the text in the response
+                    response.json().then(function(users) {
+                        console.log('recherce'+search)
+                        usersFound = Object.values(users).filter(user=>{
+                            console.log(user)
+                            return user.name.includes(search)
+                        })
+                        console.log(usersFound)
+                        setUsersResult(usersResult=>usersResult=usersFound)
+                        console.log('icii')
+                        console.log(usersResult)
+
+                    });
+                    }
+                )
+                .catch(function(err) {
+                    console.log('Fetch Error :-S', err);
+                });
+                return () => {
+                    console.log('unmount ....')
+                }
+
+            }, [search]); // rien n'est watch au niveau des states
+
+            console.log(usersFound.length)
+    
+            if(usersResult.length <1) return <React.Fragment><p>Aucun resultat</p> </React.Fragment>
+            else return <div>{usersResult.map((user,index) => <p key={index}>{user.name}</p>)}</div>
+        }
+
+
+
+        const App = () => {
+
+           // const [ display, setDisplay ] = React.useState(false);
+
+           
+
+            return (
+                <div>
+                  <Search />
+                </div>
+            );
+        }
+
+        const container = document.getElementById('root');
+
+        ReactDOM.render(
+            <App />,
+            container
+        );
+
+
+    </script>
+</body>
+
+</html>

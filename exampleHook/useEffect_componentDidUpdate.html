@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
+    <style>
+   
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        const App = ({title, message}) => {
+            const [ count, setCount ] = React.useState(0);
+
+            // life cycle
+            // componentDidMount, componentDidUpdate, componentWillUnmount
+            React.useEffect(() => {
+
+                setTimeout(() => {
+                    setCount(count + 1); // relance le useEffect
+                }, 1000);
+
+                return () => {
+                    console.log('umount...')
+                }
+
+            }, [count]) // cible le state count il sera donc modifie
+
+            const handle = () => {
+                // du code
+                setCount(count + 1);
+            }
+
+            return (
+                <div>
+                    <p>{title}</p>
+                    <p>{message}</p>
+                    <p>{count}</p>
+                </div>
+            );
+        }
+
+        const container = document.getElementById('root');
+
+        ReactDOM.render(
+            <App title = "Hello React" message ="Super les hooks" />,
+            container
+        );
+
+
+    </script>
+</body>
+
+</html>
