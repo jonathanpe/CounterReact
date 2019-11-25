@@ -17,20 +17,7 @@
     <div id="root"></div>
     <script type="text/babel">
 
-        const App = ({title, message}) => {
-            const [ count, setCount ] = React.useState(0);
-            const [ display, setDisplay ] = React.useState(false); 
-
-            React.useEffect(() => {
-
-            },[display])
-
-            const displayer = () => {                
-                setDisplay(!display)
-            }
-
-
-            const Counter = ()=> {
+        const Counter = ()=> {
                 const [ count, setCount ] = React.useState(0);
                 const [ interval, setMyInterval ] = React.useState(0);
 
@@ -39,7 +26,7 @@
 
 
                     return () => {
-     
+                        console.log('test')
                     }
 
                  }, [count]) 
@@ -63,6 +50,19 @@
                     </div>
                 )
             }
+        const App = ({title, message}) => {
+            const [ count, setCount ] = React.useState(0);
+            const [ display, setDisplay ] = React.useState(false); 
+
+            React.useEffect(() => {
+
+            },[display])
+
+            const displayer = () => {                
+                setDisplay(!display)
+            }
+
+
 
             // life cycle
             // componentDidMount, componentDidUpdate, componentWillUnmount
