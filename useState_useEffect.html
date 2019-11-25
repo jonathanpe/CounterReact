@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
+    <style>
+   
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        // approche fonctionnelle pour définir un composant
+        // une props est en read only
+
+        // On utilise les state pour être dans les perf
+        // proposé par React pour rendre les modifications
+        // dans le DOM
+        const App = ({title, message}) => {
+
+            // state dans une fonction
+            // On doit passer par le Hook qui s'appelle useState
+            // le Hook useState fonctionne de la manière suivante:
+            // une variable count et sa méthode pour modifier la valeur du state count
+            const [ count, setCount ] = React.useState(0);
+
+            // on peut définir un deuxième state.
+            const [ count2, setCount2 ] = React.useState(0);
+
+            // life cycle
+            // componentDidMount, componentDidUpdate, componentWillUnmount
+            React.useEffect(() => {
+
+                // lire le state count
+                console.log(count);
+                console.log(count2);
+
+                // fonction de compoentWillUnmount
+                // exécuter au démontage et quand le state change ici count ou count2
+                return () => {
+                    console.log('umount...')
+                }
+
+            }, [count, count2]) // cible un ou des state, si rien useEffect ne s'exécute qu'au montage componentDidMount
+
+            // on peut cibler un state en particulier dans un autre useEffect
+            React.useEffect(() => {
+          
+            console.log(count2);
+            }, [count2]) 
+
+            return (
+                <div>
+                    <p>{title}</p>
+                    <p>{message}</p>
+                    <p>{count}</p>
+                    <p><button onClick={() => setCount( count + 1 )} >increment</button></p>
+                    <p><button onClick={() => setCount2( count2 + 1 )} >increment 2</button></p>
+                </div>
+            );
+        }
+
+        const container = document.getElementById('root');
+
+        ReactDOM.render(
+            <App title = "Hello React" message ="Super les hooks" />,
+            container
+        );
+
+        setTimeout(() => {
+            // permet de supprimer le noeud root => supprime également App composant => life cycle déclenché
+            ReactDOM.unmountComponentAtNode(container);
+        }, 2000);
+
+    </script>
+</body>
+
+</html>
